@@ -1,0 +1,35 @@
+###### Sistema de Estacionacionamiento "SAN CARLOS" ######
+
+# Vista de Panel
+    - Se vera la posibilidad de hacerla si queda tiempo
+
+
+# Vista de Registro Entrada
+- Fromulario de registro de Entrada
+    - Número de placa
+    - Marca
+    - Color
+    - Tipo de Vehiculo
+
+- Tarjetas en la vista, mostraran (Estacionamiento + Pensiones, Baños, Gastos, vehiculos activos)
+
+# Vista de Cobro (Posibilidades del operador)
+    - Convertir a pensión nocturna -> Se cobra desde que entro hasta el cierre del local + pension nocturna
+    - Cobro normal -> Tiempo consumido entre la hora de apertura y la hora de cierre del local
+    - Convertir solo a pension -> solo sirve para cobrar el monto de pension, no toma en cuenta tiempo previo
+    - Cobro con boleto perdido -> aplicar logica que maneja el establecimiento
+
+# Vista de configuracion
+    - Monto pension nocturna 
+    - Tolerancia para empezar a cobrar primera hora
+    - Tolerancia para empezar a cobrar resto de horas
+    - Horarios de apertura y de cierre a la semana
+    - Nombre del establecimiento
+    - Direccion
+
+# Vista de corte de Caja
+    - Desglose de ventas -> Estacionamiento + Pensiones + Servicios(Baños, papel) - Gastos
+    - Checar imagen de corte de caja que quiere Alex
+
+# Vista de Transacciones
+    - Se listan todas las operaciones que se hacen del sistema, estilo auditoria
