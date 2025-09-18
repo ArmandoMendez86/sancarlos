@@ -16,6 +16,4 @@ define('DB2_PASSWORD', 'Pruebas861215#-');
 define('DB2_NAME', 'u111680873_pruebas');
 
 
-
-
 ?>

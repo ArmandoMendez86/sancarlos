@@ -1,6 +1,4 @@
 <style>
- 
-
     /* Estilos para el botón FAB */
     .fab-button {
         position: fixed;
@@ -71,26 +69,63 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="expenseForm">
                     <div class="mb-3">
                         <label for="expenseConcept" class="form-label">Concepto</label>
-                        <input type="text" class="form-control" id="expenseConcept"
+                        <input type="text" class="form-control" id="expenseConcept" name="concepto"
                             placeholder="Ej. Material de limpieza" required>
                     </div>
                     <div class="mb-3">
                         <label for="expenseAmount" class="form-label">Monto</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input type="number" class="form-control" id="expenseAmount" placeholder="Ej. 150.00"
-                                required>
+                            <input type="number" class="form-control" id="expenseAmount" name="monto"
+                                placeholder="Ej. 150.00" required>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar Gasto</button>
+                <button type="submit" form="expenseForm" class="btn btn-primary">Guardar Gasto</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const expenseForm = document.getElementById('expenseForm');
+        const expenseModal = new bootstrap.Modal(document.getElementById('expenseModal'));
+
+        expenseForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(expenseForm);
+            const response = await fetch(`${BASE_URL_API}/index.php?action=gastos/registrar`, {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Gasto registrado!',
+                    text: data.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    expenseModal.hide();
+                    expenseForm.reset();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message,
+                });
+            }
+        });
+    });
+</script>

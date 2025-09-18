@@ -7,7 +7,7 @@
         z-index: 1000;
     }
 
-    .fab-button {
+    .fab-button-menu {
         width: 60px;
         height: 60px;
         border-radius: 50%;
@@ -16,7 +16,7 @@
         transition: transform 0.3s ease-in-out;
     }
 
-    .fab-button.active {
+    .fab-button-menu.active {
         transform: rotate(45deg);
     }
 
@@ -52,11 +52,13 @@
 
 <div class="fab-container">
     <ul class="fab-menu" id="fabMenu">
-        <li><a href="#" class="btn btn-info btn-sm">Salida</a></li>
-        <li><a href="#" class="btn btn-warning btn-sm">Reportes</a></li>
+        <li><a href="vehiculos_activos" class="btn btn-info btn-sm">Vehiculos activos</a></li>
+        <li><a href="cobro" class="btn btn-warning btn-sm">Cobro</a></li>
         <li><a href="configuracion" class="btn btn-success btn-sm">Configuración</a></li>
+        <li><a href="caja" class="btn btn-success btn-sm">Corte de Caja</a></li>
+        <li><a href="registro_entrada" class="btn btn-success btn-sm">Entrada</a></li>
     </ul>
-    <button class="btn btn-primary fab-button" id="fabButton">
+    <button class="btn btn-primary fab-button-menu" id="fabButton">
         <i class="fa-solid fa-plus"></i>
     </button>
 </div>

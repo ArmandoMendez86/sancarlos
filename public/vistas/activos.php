@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehículos Estacionados - Estacionamiento</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             background-color: #2c3e50;
@@ -17,11 +20,13 @@
             margin: 0;
             padding: 20px;
         }
+
         .scrollable-container {
             max-height: 80vh;
             overflow-y: auto;
             padding-right: 15px;
         }
+
         .vehicle-card {
             background-color: #fff;
             color: #2c3e50;
@@ -31,40 +36,104 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s;
         }
+
         .vehicle-card:hover {
             transform: translateY(-5px);
         }
-        .card-header {
-            background-color: #0d6efd;
-            color: #fff;
+
+        /* --- INICIO DE NUEVOS ESTILOS PARA EL MODAL --- */
+
+        .modal-content {
+            background-color: #f8f9fa;
+            border-radius: 1rem;
+            border: none;
+        }
+
+        .modal-header {
+            border-bottom: none;
+            padding: 1.5rem 1.5rem 0.5rem;
+        }
+
+        .modal-body {
+            padding: 1rem 2rem;
+        }
+
+        .modal-footer {
+            border-top: none;
+            padding: 0.5rem 1.5rem 1.5rem;
+        }
+
+        .placa-display {
+            font-size: 2rem;
             font-weight: bold;
-            border-radius: 0;
+            color: #0d6efd;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
         }
-        .card-title {
-            font-size: 1.5rem;
-            margin-bottom: 0;
+
+        .detail-list {
+            list-style: none;
+            padding: 0;
         }
-        .card-body .row {
-            align-items: center;
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #dee2e6;
         }
-        .info-item {
-            font-size: 1rem;
-            margin-bottom: 8px;
+
+        .detail-item:last-child {
+            border-bottom: none;
         }
-        .info-item .icon {
+
+        .detail-item .label {
             color: #6c757d;
-            margin-right: 5px;
         }
-        .search-input {
-            background-color: #f0f2f5;
-            color: #2c3e50;
-            border-color: #ced4da;
+
+        .detail-item .value {
+            font-weight: 600;
+            color: #212529;
         }
-        .search-input::placeholder {
-            color: #888;
+
+        .total-display-box {
+            background-color: #e9f5ee;
+            border: 1px solid #a3cfbb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .total-display-box .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #28a745;
+            line-height: 1;
+        }
+
+        .total-display-box .label {
+            font-size: 1rem;
+            color: #3e8a5b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* --- FIN DE NUEVOS ESTILOS PARA EL MODAL --- */
+
+        .modal-title {
+            color: #212529;
+            /* Color oscuro para el título */
+        }
+
+        .form-check-label {
+            color: #212529;
+            /* Color oscuro para las etiquetas */
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="row justify-content-center mb-4">
@@ -80,7 +149,8 @@
         <div class="row justify-content-center mb-4">
             <div class="col-md-6">
                 <div class="input-group">
-                    <input type="text" class="form-control search-input" id="searchInput" placeholder="Buscar por placa...">
+                    <input type="text" class="form-control search-input" id="searchInput"
+                        placeholder="Buscar por placa...">
                     <button class="btn btn-primary" type="button"><i class="fa-solid fa-search"></i></button>
                 </div>
             </div>
@@ -88,92 +158,78 @@
 
         <div class="scrollable-container" id="vehicleCardsContainer">
             <div class="row justify-content-center">
-                <div class="col-md-6 col-lg-4 mb-4 vehicle-card-item" data-plate="ABC-123">
-                    <div class="card vehicle-card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title">ABC-123</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="info-item"><i class="fa-solid fa-car icon"></i> Tipo: <span class="fw-bold">Automóvil</span></p>
-                            <p class="info-item"><i class="fa-solid fa-tag icon"></i> Marca: <span class="fw-bold">Nissan</span></p>
-                            <p class="info-item"><i class="fa-solid fa-palette icon"></i> Color: <span class="fw-bold">Rojo</span></p>
-                            <p class="info-item"><i class="fa-solid fa-clock icon"></i> Entrada: <span class="fw-bold">10:00 AM</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-4 vehicle-card-item" data-plate="DEF-456">
-                    <div class="card vehicle-card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title">DEF-456</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="info-item"><i class="fa-solid fa-motorcycle icon"></i> Tipo: <span class="fw-bold">Motocicleta</span></p>
-                            <p class="info-item"><i class="fa-solid fa-tag icon"></i> Marca: <span class="fw-bold">Yamaha</span></p>
-                            <p class="info-item"><i class="fa-solid fa-palette icon"></i> Color: <span class="fw-bold">Negro</span></p>
-                            <p class="info-item"><i class="fa-solid fa-clock icon"></i> Entrada: <span class="fw-bold">11:15 AM</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-4 vehicle-card-item" data-plate="GHI-789">
-                    <div class="card vehicle-card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title">GHI-789</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="info-item"><i class="fa-solid fa-truck-pickup icon"></i> Tipo: <span class="fw-bold">Camioneta</span></p>
-                            <p class="info-item"><i class="fa-solid fa-tag icon"></i> Marca: <span class="fw-bold">Ford</span></p>
-                            <p class="info-item"><i class="fa-solid fa-palette icon"></i> Color: <span class="fw-bold">Azul</span></p>
-                            <p class="info-item"><i class="fa-solid fa-clock icon"></i> Entrada: <span class="fw-bold">12:30 PM</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-4 vehicle-card-item" data-plate="JKL-012">
-                    <div class="card vehicle-card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title">JKL-012</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="info-item"><i class="fa-solid fa-car icon"></i> Tipo: <span class="fw-bold">Automóvil</span></p>
-                            <p class="info-item"><i class="fa-solid fa-tag icon"></i> Marca: <span class="fw-bold">Honda</span></p>
-                            <p class="info-item"><i class="fa-solid fa-palette icon"></i> Color: <span class="fw-bold">Gris</span></p>
-                            <p class="info-item"><i class="fa-solid fa-clock icon"></i> Entrada: <span class="fw-bold">01:00 PM</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 mb-4 vehicle-card-item" data-plate="MNO-345">
-                    <div class="card vehicle-card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="card-title">MNO-345</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="info-item"><i class="fa-solid fa-motorcycle icon"></i> Tipo: <span class="fw-bold">Motocicleta</span></p>
-                            <p class="info-item"><i class="fa-solid fa-tag icon"></i> Marca: <span class="fw-bold">Kawasaki</span></p>
-                            <p class="info-item"><i class="fa-solid fa-palette icon"></i> Color: <span class="fw-bold">Verde</span></p>
-                            <p class="info-item"><i class="fa-solid fa-clock icon"></i> Entrada: <span class="fw-bold">01:45 PM</span></p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        const searchInput = document.getElementById('searchInput');
-        const cards = document.querySelectorAll('.vehicle-card-item');
+    <div class="modal fade" id="cobroModal" tabindex="-1" aria-labelledby="cobroModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="cobroForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cobroModalLabel">Resumen de Cobro</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
 
-        searchInput.addEventListener('keyup', (e) => {
-            const searchText = e.target.value.toLowerCase();
-            
-            cards.forEach(card => {
-                const plate = card.getAttribute('data-plate').toLowerCase();
-                if (plate.includes(searchText)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    </script>
+                        <div class="text-center">
+                            <h3 class="placa-display" id="modal-placa">------</h3>
+                        </div>
+
+                        <ul class="detail-list">
+                            <li class="detail-item">
+                                <span class="label">Entrada:</span>
+                                <span class="value" id="modal-entrada">--</span>
+                            </li>
+                            <li class="detail-item">
+                                <span class="label">Salida:</span>
+                                <span class="value" id="modal-salida">--</span>
+                            </li>
+                            <li class="detail-item">
+                                <span class="label">Horario del día:</span>
+                                <span class="value" id="modal-horario-dia">--</span>
+                            </li>
+                            <li class="detail-item">
+                                <span class="label">Tiempo Total:</span>
+                                <span class="value" id="modal-tiempo">--</span>
+                            </li>
+                        </ul>
+
+                        <hr class="my-3">
+
+                        <div class="d-flex justify-content-around">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="boleto_perdido_check"
+                                    name="boleto_perdido">
+                                <label class="form-check-label" for="boleto_perdido_check">Boleto Perdido</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="es_pension_check"
+                                    name="es_pension">
+                                <label class="form-check-label" for="es_pension_check">Pensión Nocturna</label>
+                            </div>
+                        </div>
+
+                        <div class="text-center total-display-box">
+                            <div class="label">Total a Pagar</div>
+                            <div class="price" id="modal-costo">--</div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            <i class="fa-solid fa-cash-register me-2"></i>Realizar Cobro
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="public/js/rutas.js"></script>
+    <script src="public/js/activos.js"></script>
 </body>
+
 </html>
