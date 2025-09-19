@@ -1,235 +1,166 @@
+<!-- public/activos.php -->
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehículos Estacionados - Estacionamiento</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .scrollable-container {
-            max-height: 80vh;
-            overflow-y: auto;
-            padding-right: 15px;
-        }
-
-        .vehicle-card {
-            background-color: #fff;
-            color: #2c3e50;
-            border: none;
-            border-left: 5px solid #0d6efd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
-        }
-
-        .vehicle-card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* --- INICIO DE NUEVOS ESTILOS PARA EL MODAL --- */
-
-        .modal-content {
-            background-color: #f8f9fa;
-            border-radius: 1rem;
-            border: none;
-        }
-
-        .modal-header {
-            border-bottom: none;
-            padding: 1.5rem 1.5rem 0.5rem;
-        }
-
-        .modal-body {
-            padding: 1rem 2rem;
-        }
-
-        .modal-footer {
-            border-top: none;
-            padding: 0.5rem 1.5rem 1.5rem;
-        }
-
-        .placa-display {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #0d6efd;
-            letter-spacing: 2px;
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .detail-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.95rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .detail-item:last-child {
-            border-bottom: none;
-        }
-
-        .detail-item .label {
-            color: #6c757d;
-        }
-
-        .detail-item .value {
-            font-weight: 600;
-            color: #212529;
-        }
-
-        .total-display-box {
-            background-color: #e9f5ee;
-            border: 1px solid #a3cfbb;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .total-display-box .price {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #28a745;
-            line-height: 1;
-        }
-
-        .total-display-box .label {
-            font-size: 1rem;
-            color: #3e8a5b;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-
-        /* --- FIN DE NUEVOS ESTILOS PARA EL MODAL --- */
-
-        .modal-title {
-            color: #212529;
-            /* Color oscuro para el título */
-        }
-
-        .form-check-label {
-            color: #212529;
-            /* Color oscuro para las etiquetas */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vehículos Estacionados - Estacionamiento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="public/css/activos.css"><!-- si ya la tenías, perfecto -->
 </head>
-
 <body>
-    <div class="container">
-        <div class="row justify-content-center mb-4">
-            <div class="col-md-10 text-center">
-                <div class="card bg-primary text-white">
-                    <div class="card-body">
-                        <h3>Vehículos actualmente en el estacionamiento</h3>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-10 text-center">
+        <div class="card page-title-card border-0 shadow-sm">
+          <div class="card-body">
+            <h3 class="m-0">Vehículos actualmente en el estacionamiento</h3>
+          </div>
         </div>
-
-        <div class="row justify-content-center mb-4">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" class="form-control search-input" id="searchInput"
-                        placeholder="Buscar por placa...">
-                    <button class="btn btn-primary" type="button"><i class="fa-solid fa-search"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <div class="scrollable-container" id="vehicleCardsContainer">
-            <div class="row justify-content-center">
-            </div>
-        </div>
+      </div>
     </div>
 
-    <div class="modal fade" id="cobroModal" tabindex="-1" aria-labelledby="cobroModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form id="cobroForm">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="cobroModalLabel">Resumen de Cobro</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="text-center">
-                            <h3 class="placa-display" id="modal-placa">------</h3>
-                        </div>
-
-                        <ul class="detail-list">
-                            <li class="detail-item">
-                                <span class="label">Entrada:</span>
-                                <span class="value" id="modal-entrada">--</span>
-                            </li>
-                            <li class="detail-item">
-                                <span class="label">Salida:</span>
-                                <span class="value" id="modal-salida">--</span>
-                            </li>
-                            <li class="detail-item">
-                                <span class="label">Horario del día:</span>
-                                <span class="value" id="modal-horario-dia">--</span>
-                            </li>
-                            <li class="detail-item">
-                                <span class="label">Tiempo Total:</span>
-                                <span class="value" id="modal-tiempo">--</span>
-                            </li>
-                        </ul>
-
-                        <hr class="my-3">
-
-                        <div class="d-flex justify-content-around">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="boleto_perdido_check"
-                                    name="boleto_perdido">
-                                <label class="form-check-label" for="boleto_perdido_check">Boleto Perdido</label>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="es_pension_check"
-                                    name="es_pension">
-                                <label class="form-check-label" for="es_pension_check">Pensión Nocturna</label>
-                            </div>
-                        </div>
-
-                        <div class="text-center total-display-box">
-                            <div class="label">Total a Pagar</div>
-                            <div class="price" id="modal-costo">--</div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-lg w-100">
-                            <i class="fa-solid fa-cash-register me-2"></i>Realizar Cobro
-                        </button>
-                    </div>
-                </form>
-            </div>
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-text bg-white"><i class="fa-solid fa-search"></i></span>
+          <input type="text" class="form-control" id="searchInput" placeholder="Buscar por placa...">
         </div>
+      </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <script src="public/js/rutas.js"></script>
-    <script src="public/js/activos.js"></script>
+
+    <div class="scrollable-container" id="vehicleCardsContainer">
+      <div class="row justify-content-center"></div>
+    </div>
+  </div>
+
+  <!-- MODAL COBRO -->
+  <div class="modal fade" id="cobroModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <form id="cobroForm">
+          <div class="modal-header border-0">
+            <h5 class="modal-title"><i class="fa-solid fa-cash-register me-2"></i>Salida y Cobro</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body pt-0">
+            <div class="text-center placa-display" id="modal-placa">--</div>
+
+            <ul class="detail-list">
+              <li class="detail-item"><span>Tipo</span><span id="modal-tipo">--</span></li>
+              <li class="detail-item"><span>Marca</span><span id="modal-marca">--</span></li>
+              <li class="detail-item"><span>Color</span><span id="modal-color">--</span></li>
+            </ul>
+
+            <div class="row g-3 mt-2">
+              <div class="col-md-6">
+                <label class="form-label">Entrada</label>
+                <input id="input-entrada" type="datetime-local" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Salida</label>
+                <input id="input-salida" type="datetime-local" class="form-control" />
+              </div>
+            </div>
+            <p class="small text-muted mt-2">Horario del día: <span id="modal-horario-dia">--</span></p>
+
+            <ul class="detail-list mt-2">
+              <li class="detail-item"><span>Tiempo</span><span id="modal-tiempo">--</span></li>
+            </ul>
+
+            <hr class="my-3">
+
+            <!-- Controles de cobro -->
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="boleto_perdido_check" name="boleto_perdido">
+                  <label class="form-check-label" for="boleto_perdido_check">Boleto Perdido</label>
+                </div>
+
+                <div class="form-check form-switch mt-2">
+                  <input class="form-check-input" type="checkbox" id="tolerancia_check" checked>
+                  <label class="form-check-label" for="tolerancia_check">Tolerancia 30 min tras apertura</label>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label mb-1">Modo de cobro</label>
+                <div class="d-flex flex-column gap-1" id="modo-cobro-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="cobro_mode" id="mode_normal" value="normal" checked>
+                    <label class="form-check-label" for="mode_normal">
+                      Normal (diurno + $100 por cada noche)
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="cobro_mode" id="mode_pension_tiempo" value="pension_tiempo">
+                    <label class="form-check-label" for="mode_pension_tiempo">
+                      Pensión (tiempo hasta cierre + $100)
+                    </label>
+                  </div>
+                  <div class="form-check d-flex align-items-center gap-2">
+                    <div>
+                      <input class="form-check-input" type="radio" name="cobro_mode" id="mode_solo_pension" value="solo_pension">
+                      <label class="form-check-label" for="mode_solo_pension">
+                        Solo pensión ($100 x noche)
+                      </label>
+                    </div>
+                    <div class="ms-2 d-flex align-items-center gap-2">
+                      <label for="soloPensionNoches" class="small mb-0">Noches:</label>
+                      <input type="number" id="soloPensionNoches" class="form-control form-control-sm" style="width:90px" min="1" step="1" value="1" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Desglose -->
+            <div class="mt-3" id="desglose-container">
+              <div class="table-responsive">
+                <table class="table table-sm table-striped align-middle">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Ventana (apertura→cierre)</th>
+                      <th>Usado</th>
+                      <th>Costo diurno</th>
+                      <th>Pensión nocturna</th>
+                      <th>Total día</th>
+                    </tr>
+                  </thead>
+                  <tbody id="desglose-body"></tbody>
+                  <tfoot>
+                    <tr>
+                      <th colspan="4" class="text-end">Noches (x$100)</th>
+                      <th id="desglose-noches">0</th>
+                      <th id="desglose-total">$0.00</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+            <div class="text-center total-display-box">
+              <div class="label" id="total-mode-label">Total a Pagar</div>
+              <div class="price" id="modal-costo">$0.00</div>
+            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="submit" class="btn btn-success btn-lg w-100">
+              <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Realizar Cobro
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Librerías -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="public/js/rutas.js"></script>
+  <script src="public/js/activos.js"></script>
 </body>
-
 </html>

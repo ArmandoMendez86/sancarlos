@@ -127,6 +127,11 @@
 
     </div>
 
+     <?php
+    include __DIR__ . '/../../app/parciales/menu.php';
+    include __DIR__ . '/../../app/parciales/gasto.php';
+    include __DIR__ . '/../../app/parciales/wc.php';
+    ?>
    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

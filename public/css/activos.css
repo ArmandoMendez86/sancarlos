@@ -1,0 +1,291 @@
+   /* ================================
+   Estilos "Activos" — SOLO UI
+   (No altera funcionalidades)
+   ================================ */
+
+        /* ---------- Paleta y bases ---------- */
+        :root {
+            --bg-grad-1: #0e1325;
+            --bg-grad-2: #1a2850;
+            --card-bg: #0b1022c0;
+            /* glass */
+            --card-outline: #4e8cff;
+            --card-outline-2: #7a3cff;
+            --card-shadow: rgba(0, 0, 0, .35);
+            --text-main: #eaf2ff;
+            --text-dim: #b7c3e6;
+            --accent: #67d4ff;
+            --accent-2: #9b73ff;
+            --success: #18d19a;
+            --danger: #ff6b6b;
+            --warning: #ffcc66;
+        }
+
+        /* ---------- Fondo y tipografía ---------- */
+        body {
+            background: radial-gradient(1200px 800px at 15% 20%, #13204b, transparent 60%),
+                radial-gradient(1000px 700px at 85% 10%, #32154b, transparent 55%),
+                linear-gradient(160deg, var(--bg-grad-1), var(--bg-grad-2));
+            color: var(--text-main);
+            font-feature-settings: "ss01" on, "liga" on;
+        }
+
+        /* ---------- Encabezado de la página ---------- */
+        .page-title-card {
+            background: linear-gradient(135deg, #101735 0%, #1a274f 100%);
+            border: 1px solid rgba(255, 255, 255, .06);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            color: var(--text-main);
+        }
+
+        .page-title-card h3 {
+            letter-spacing: .3px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        /* ---------- Buscador ---------- */
+        #searchInput {
+            background: rgba(255, 255, 255, .06);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, .15);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+        }
+
+        #searchInput::placeholder {
+            color: var(--text-dim);
+        }
+
+        #searchInput:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 .25rem rgba(103, 212, 255, .15);
+            outline: none;
+        }
+
+        .input-group-text.bg-white {
+            background: rgba(255, 255, 255, .06) !important;
+            color: var(--accent);
+            border: 1px solid rgba(255, 255, 255, .15);
+        }
+
+        /* ---------- Contenedor scroll ---------- */
+        #vehicleCardsContainer .row {
+            padding-bottom: 12px;
+        }
+
+        .scrollable-container {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, .25) transparent;
+        }
+
+        .scrollable-container::-webkit-scrollbar {
+            height: 10px;
+            width: 10px;
+        }
+
+        .scrollable-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent), var(--accent-2));
+            border-radius: 10px;
+        }
+
+        /* ---------- Tarjetas de vehículos ---------- */
+        .vehicle-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+            backdrop-filter: blur(6px);
+            color: var(--text-main) !important;
+            box-shadow: 0 15px 40px var(--card-shadow);
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        }
+
+        /* Borde lateral con gradiente */
+        .vehicle-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 0 auto;
+            width: 6px;
+            background: linear-gradient(180deg, var(--card-outline), var(--card-outline-2));
+        }
+
+        /* Glow sutil al hover */
+        .vehicle-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(103, 212, 255, .35);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .45), 0 0 0 1px rgba(103, 212, 255, .2) inset;
+        }
+
+        /* Header de la tarjeta */
+        .vehicle-card .card-header {
+            background: radial-gradient(400px 200px at 15% 0%, rgba(103, 212, 255, .35), transparent 70%),
+                linear-gradient(180deg, rgba(255, 255, 255, .08), transparent);
+            border-bottom: 1px solid rgba(255, 255, 255, .07);
+            color: var(--text-main);
+        }
+
+        .vehicle-card .card-title {
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+
+        /* Contenido de la tarjeta */
+        .vehicle-card .info-item {
+            color: var(--text-dim);
+            margin: .35rem 0;
+        }
+
+        .vehicle-card .info-item .fw-bold {
+            color: var(--text-main);
+        }
+
+        /* Botón “Dar salida” */
+        .vehicle-card .btn-salida {
+            background: linear-gradient(135deg, #1ed3a8 0%, #12a67f 100%);
+            color: #0b1324;
+            border: none;
+            font-weight: 700;
+            letter-spacing: .2px;
+            box-shadow: 0 8px 18px rgba(18, 166, 127, .35);
+            transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+        }
+
+        .vehicle-card .btn-salida:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+            box-shadow: 0 12px 24px rgba(18, 166, 127, .45);
+        }
+
+        /* ---------- Modal de cobro ---------- */
+        #cobroModal .modal-dialog {
+            filter: drop-shadow(0 24px 60px rgba(0, 0, 0, .55));
+        }
+
+        #cobroModal .modal-content {
+            background: linear-gradient(180deg, rgba(20, 24, 45, .92), rgba(12, 16, 35, .92));
+            border: 1px solid rgba(255, 255, 255, .08);
+            color: var(--text-main);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+        }
+
+        /* Header del modal */
+        #cobroModal .modal-header {
+            background: linear-gradient(135deg, rgba(103, 212, 255, .25), rgba(155, 115, 255, .18));
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        #cobroModal .modal-title {
+            font-weight: 800;
+            letter-spacing: .4px;
+        }
+
+        /* Cuerpo del modal */
+        #cobroModal label.form-label {
+            color: var(--text-dim);
+            font-weight: 600;
+        }
+
+        #cobroModal input[type="datetime-local"] {
+            background: rgba(255, 255, 255, .06);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, .15);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+        }
+
+        #cobroModal input[type="datetime-local"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 .25rem rgba(103, 212, 255, .15);
+            outline: none;
+        }
+
+        /* Lista de detalles */
+        #cobroModal .detail-list .detail-item {
+            border-bottom: 1px dashed rgba(255, 255, 255, .1);
+            color: var(--text-dim);
+        }
+
+        #cobroModal .detail-list .detail-item span:last-child {
+            color: var(--text-main);
+        }
+
+        /* Switches */
+        #cobroModal .form-check-input {
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, .25);
+            background: rgba(255, 255, 255, .15);
+        }
+
+        #cobroModal .form-check-input:checked {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-color: transparent;
+            box-shadow: 0 0 0 .25rem rgba(103, 212, 255, .15);
+        }
+
+        /* Total a pagar */
+        #cobroModal .total-display-box {
+            background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .03));
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        #cobroModal .total-display-box .label {
+            color: var(--text-dim);
+        }
+
+        #cobroModal .total-display-box .price {
+            color: #ffffff;
+            text-shadow: 0 0 18px rgba(103, 212, 255, .4), 0 0 42px rgba(155, 115, 255, .25);
+            letter-spacing: .6px;
+        }
+
+        /* Botón cobrar */
+        #cobroModal .btn-success {
+            background: linear-gradient(135deg, #1ed3a8 0%, #12a67f 100%);
+            color: #0b1324;
+            border: none;
+            font-weight: 800;
+            letter-spacing: .2px;
+            box-shadow: 0 12px 26px rgba(18, 166, 127, .4);
+        }
+
+        #cobroModal .btn-success:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        /* Botón cerrar */
+        #cobroModal .btn-close {
+            filter: invert(1) grayscale(1) brightness(2);
+            opacity: .75;
+        }
+
+        #cobroModal .btn-close:hover {
+            opacity: 1;
+        }
+
+        /* ---------- Utilidades ---------- */
+        .placa-display {
+            color: var(--accent);
+            text-shadow: 0 6px 32px rgba(103, 212, 255, .25);
+        }
+
+        .text-muted,
+        .small.text-muted {
+            color: var(--text-dim) !important;
+        }
+
+        /* Mejor contraste en tablas/listas del modal */
+        #cobroModal hr {
+            border-color: rgba(255, 255, 255, .12);
+        }
+
+        /* Ajustes responsivos sutiles */
+        @media (max-width: 576px) {
+            .vehicle-card .card-body {
+                padding: 1rem .9rem;
+            }
+
+            .placa-display {
+                font-size: 1.6rem;
+            }
+        }

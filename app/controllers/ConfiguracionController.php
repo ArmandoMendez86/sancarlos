@@ -50,16 +50,25 @@ class ConfiguracionController
         }
     }
 
-    // Método auxiliar para la lógica de cobro
     public function obtenerHorarioDia($day)
     {
         $config = $this->model->obtenerConfiguracion();
-        $dia = strtolower($day);
+        $map = [
+            'lunes'     => ['abierto' => 'lunes_abierto',     'apertura' => 'lunes_apertura',     'cierre' => 'lunes_cierre'],
+            'martes'    => ['abierto' => 'martes_abierto',    'apertura' => 'martes_apertura',    'cierre' => 'martes_cierre'],
+            'miercoles' => ['abierto' => 'miercoles_abierto', 'apertura' => 'miercoles_apertura', 'cierre' => 'miercoles_cierre'],
+            'jueves'    => ['abierto' => 'jueves_abierto',    'apertura' => 'jueves_apertura',    'cierre' => 'jueves_cierre'],
+            'viernes'   => ['abierto' => 'viernes_abierto',   'apertura' => 'viernes_apertura',   'cierre' => 'viernes_cierre'],
+            'sabado'    => ['abierto' => 'sabado_abierto',    'apertura' => 'sabado_apertura',    'cierre' => 'sabado_cierre'],
+            'domingo'   => ['abierto' => 'domingo_abierto',   'apertura' => 'domingo_apertura',   'cierre' => 'domingo_cierre'],
+        ];
+        $k = $map[$day] ?? null;
+        if (!$k || !$config) return ['abierto' => 0, 'apertura' => null, 'cierre' => null];
 
         return [
-            'abierto' => $config[$dia . '_abierto'],
-            'apertura' => $config[$dia . '_apertura'],
-            'cierre' => $config[$dia . '_cierre']
+            'abierto'  => (int)$config[$k['abierto']] === 1,
+            'apertura' => $config[$k['apertura']],
+            'cierre'   => $config[$k['cierre']],
         ];
     }
 }

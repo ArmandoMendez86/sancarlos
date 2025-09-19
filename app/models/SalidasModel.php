@@ -1,59 +1,69 @@
 <?php
-// Archivo: app/models/SalidasModel.php
-
+// app/models/SalidasModel.php
 require_once __DIR__ . '/../config/Database.php';
 
-class SalidasModel
-{
+class SalidasModel {
     private $db;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    /**
-     * Obtiene los detalles de un vehículo por su placa.
-     * @param string $placa La placa del vehículo.
-     * @return array|null
-     */
-    public function obtenerDetallesPorPlaca($placa)
-    {
-        try {
-            $stmt = $this->db->prepare("
-                SELECT e.*, v.tipo, v.tarifa 
-                FROM entradas e 
-                JOIN vehiculos v ON e.vehiculos_id = v.id 
-                WHERE e.placa = ? ORDER BY e.fecha_entrada DESC LIMIT 1");
-            $stmt->execute([$placa]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            return null;
-        }
+    public function getVehiculoPorEntradaId($entradaId) {
+        $sql = "SELECT 
+                    e.id,
+                    e.fecha_entrada,
+                    e.marca,
+                    e.color,
+                    e.placa,
+                    e.folio,
+                    e.vehiculos_id,
+                    v.tipo,
+                    v.tarifa
+                FROM entradas e
+                INNER JOIN vehiculos v ON v.id = e.vehiculos_id
+                WHERE e.id = ?
+                LIMIT 1";
+        $st = $this->db->prepare($sql);
+        $st->execute([$entradaId]);
+        return $st->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Registra una nueva salida de vehículo.
-     * @param array $data
-     * @return bool|string
-     */
-    public function registrarSalida($data)
-    {
+    public function registrarSalida(array $data) {
         try {
-            $stmt = $this->db->prepare("
-                INSERT INTO salidas (tipo_cobro, fecha_salida, cobro, boleto_perdido, es_pension, entrada_id)
-                VALUES (?, NOW(), ?, ?, ?, ?)
+            $this->db->beginTransaction();
+
+            if (!empty($data['entrada_override'])) {
+                $st0 = $this->db->prepare("UPDATE entradas SET fecha_entrada = ? WHERE id = ?");
+                $st0->execute([$data['entrada_override'], $data['entrada_id']]);
+            }
+
+            // Evitar duplicado
+            $chk = $this->db->prepare("SELECT id FROM salidas WHERE entrada_id = ? LIMIT 1");
+            $chk->execute([$data['entrada_id']]);
+            if ($chk->fetchColumn()) {
+                $this->db->rollBack();
+                return "La entrada ya tiene una salida registrada.";
+            }
+
+            $st = $this->db->prepare("
+                INSERT INTO salidas (tipo_cobro, fecha_salida, cobro, boleto_perdido, es_pension, horas_extras, cobro_extra, entrada_id)
+                VALUES (?, ?, ?, ?, ?, NULL, NULL, ?)
             ");
-            $stmt->execute([
+            $st->execute([
                 $data['tipo_cobro'],
+                $data['fecha_salida'],
                 $data['cobro'],
                 $data['boleto_perdido'],
                 $data['es_pension'],
                 $data['entrada_id']
             ]);
+
+            $this->db->commit();
             return true;
         } catch (PDOException $e) {
-            return "Error al registrar la salida: " . $e->getMessage();
+            $this->db->rollBack();
+            return 'Error al registrar la salida: ' . $e->getMessage();
         }
     }
 }
