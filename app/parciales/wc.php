@@ -22,7 +22,7 @@
 
         // Lógica para el botón de Baños
         btnBaños.addEventListener('click', async () => {
-            const response = await fetch(`${BASE_URL_API}/index.php?action=ventas/registrarBaños`, {
+            const response = await fetch(`${BASE_URL_API}/index.php?action=ventas/registrar`, {
                 method: 'POST',
                 body: JSON.stringify({}),
                 headers: { 'Content-Type': 'application/json' }

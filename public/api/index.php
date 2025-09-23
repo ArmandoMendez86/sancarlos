@@ -10,11 +10,10 @@ error_reporting(E_ALL);
 // Incluimos todos los controladores que podamos necesitar
 // Esto es más eficiente que incluirlos dinámicamente en un proyecto pequeño
 require_once __DIR__ . '/../../app/controllers/EntradasController.php';
-require_once __DIR__ . '/../../app/controllers/VehiculosController.php';
+require_once __DIR__ . '/../../app/controllers/ConfiguracionController.php';
 require_once __DIR__ . '/../../app/controllers/SalidasController.php';
 //require_once __DIR__ . '/../../app/controllers/GastosController.php';
 //require_once __DIR__ . '/../../app/controllers/VentasController.php';
-//require_once __DIR__ . '/../../app/controllers/ConfiguracionController.php';
 
 // Obtenemos la acción solicitada desde la URL (ej. ?action=vehiculos/tipos)
 // Usamos $_GET para este ejemplo simple, pero en un router real se usa la URL amigable

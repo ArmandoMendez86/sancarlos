@@ -66,73 +66,40 @@
                         <h3>Cobro de Estacionamiento</h3>
                     </div>
                     <div class="card-body">
-                        <form action="#" method="post">
-                            <div class="mb-4">
-                                <label for="searchPlate" class="form-label">Buscar vehículo por placa</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="searchPlate" placeholder="Ej. ABC-123">
-                                    <button class="btn btn-primary" type="button"><i
-                                            class="fa-solid fa-search"></i></button>
-                                </div>
+                        <!-- Entrada por FOLIO (lectura con escáner) -->
+                        <div class="mb-4">
+                            <label for="folioInput" class="form-label">Buscar por folio (escáner)</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="folioInput" placeholder="Ej. SEP-0001" autocomplete="off">
+                                <button class="btn btn-primary" id="btnBuscarFolio" type="button">
+                                    <i class="fa-solid fa-search"></i>
+                                </button>
                             </div>
+                            <div class="form-text">Enfoca el input y escanea el código de barras del boleto.</div>
+                        </div>
 
-                            <hr class="mb-4">
-
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="entryDateTime" class="form-label">Fecha y hora de entrada</label>
-                                    <input type="datetime-local" class="form-control" id="entryDateTime">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="exitDateTime" class="form-label">Fecha y hora de salida</label>
-                                    <input type="datetime-local" class="form-control" id="exitDateTime">
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="lostTicket">
-                                    <label class="form-check-label" for="lostTicket">
-                                        Boleto perdido
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="nightPension">
-                                    <label class="form-check-label" for="nightPension">
-                                        Pasar a pensión nocturna
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="text-center mb-4">
-                                <h4 class="mb-2">Tiempo total: <span class="text-primary fw-bold">2 horas y 30
-                                        minutos</span></h4>
-                                <span class="total-cost-display">
-                                    $50.00
-                                </span>
-                                <label class="form-label fw-bold">Costo total</label>
-                            </div>
-
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-success btn-lg">Realizar cobro</button>
-                            </div>
-                        </form>
+                        <hr class="mb-0">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-     <?php
+    <?php
     include __DIR__ . '/../../app/parciales/menu.php';
     include __DIR__ . '/../../app/parciales/gasto.php';
     include __DIR__ . '/../../app/parciales/wc.php';
+    // >>> Modal reutilizado <<<
+    include __DIR__ . '/../../app/parciales/modal_cobro.php';
     ?>
 
-   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="public/js/rutas.js"></script>
+    <script src="public/js/cobro_scan.js"></script>
 </body>
+
 
 </html>

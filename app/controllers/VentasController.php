@@ -15,7 +15,7 @@ class VentasController
     /**
      * Registra una venta de baños.
      */
-    public function registrarBaños()
+    public function registrar()
     {
         header('Content-Type: application/json');
 

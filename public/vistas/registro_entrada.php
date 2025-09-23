@@ -99,6 +99,16 @@
         .form-control::placeholder {
             color: #888;
         }
+
+        @media (min-width: 768px) {
+            .card.h-100 {
+                min-height: 50vh;
+            }
+
+            .display-3 {
+                font-size: 3rem;
+            }
+        }
     </style>
 </head>
 
@@ -155,17 +165,19 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="entrada-pane" role="tabpanel"
                             aria-labelledby="entrada-tab" tabindex="0">
-                            <form action="#" method="post" class="p-4" id="entradaForm">
+                            <form action="#" class="p-4" id="entradaForm">
                                 <div class="mb-3">
                                     <label for="licensePlate" class="form-label">Placa del vehículo</label>
                                     <input type="text" class="form-control" id="licensePlate" placeholder="Ej. ABC-123"
-                                        required name="placa">
+                                        name="placa">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="vehicleType" class="form-label">Tipo de vehículo</label>
                                         <select class="form-select" id="vehicleType" required name="vehiculos_id">
                                             <option selected disabled>Seleccione una opción</option>
+                                            <option value="Automovil">Automóvil</option>
+                                            <option value="Motocicleta">Motocicleta</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -199,26 +211,10 @@
                                     </div>
                                 </div>
 
-                                <div id="vehicle-details" style="display: none;">
-                                    <div class="alert alert-light text-center" role="alert">
-                                        <h4 class="alert-heading text-dark">Detalles del vehículo</h4>
-                                        <p class="mb-0 text-dark">
-                                            **Placa:** <span class="fw-bold">ABC-123</span><br>
-                                            **Entrada:** <span class="fw-bold">12/09/2025 - 10:00 AM</span>
-                                        </p>
-                                        <hr>
-                                        <h5 class="mt-3 text-dark">Tiempo total: <span class="text-primary fw-bold">2
-                                                horas y 30 minutos</span></h5>
-                                        <h4 class="my-4 text-dark">Costo total: <span
-                                                class="text-success fw-bold">$50.00</span></h4>
-                                    </div>
-                                    <div class="d-grid gap-2">
-                                        <button type="submit" class="btn btn-success btn-lg">Pagar y dar salida</button>
-                                    </div>
-                                </div>
+                                <div id="vehicle-details"></div>
                                 <div id="not-found-message" style="display: none;">
                                     <div class="alert alert-danger text-center" role="alert">
-                                        Vehículo no encontrado. Por favor, verifique la placa.
+                                        Vehículo no encontrado. Por favor, verifique el folio.
                                     </div>
                                 </div>
                             </form>
@@ -229,10 +225,13 @@
         </div>
     </div>
 
+
     <?php
+    /*
     include __DIR__ . '/../../app/parciales/menu.php';
     include __DIR__ . '/../../app/parciales/gasto.php';
     include __DIR__ . '/../../app/parciales/wc.php';
+    */
     ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

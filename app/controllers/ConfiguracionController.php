@@ -71,4 +71,35 @@ class ConfiguracionController
             'cierre'   => $config[$k['cierre']],
         ];
     }
+
+
+    public function obtenerCierreHoy()
+    {
+        header('Content-Type: application/json');
+        $dias = [
+            'Sunday'    => 'domingo',
+            'Monday'    => 'lunes',
+            'Tuesday'   => 'martes',
+            'Wednesday' => 'miercoles',
+            'Thursday'  => 'jueves',
+            'Friday'    => 'viernes',
+            'Saturday'  => 'sabado',
+        ];
+        $diaActual = $dias[date('l')];
+        $horario = $this->obtenerHorarioDia($diaActual);
+        echo json_encode(['success' => true, 'data' => $horario]);
+    }
+
+
+    public function obtenerHorarioDiaAPI()
+    {
+        header('Content-Type: application/json');
+        $dia = $_GET['dia'] ?? null;
+        if (!$dia) {
+            echo json_encode(['success' => false, 'message' => 'Día no especificado']);
+            return;
+        }
+        $horario = $this->obtenerHorarioDia($dia);
+        echo json_encode(['success' => true, 'data' => $horario]);
+    }
 }
